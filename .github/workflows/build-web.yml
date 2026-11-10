@@ -1,0 +1,21 @@
+name: Build web
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+      - run: yarn install
+      - run: yarn build:web
+      - run: ls -la packages/web
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: packages/web
